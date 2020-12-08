@@ -47,6 +47,9 @@ public class Character : MonoBehaviour
     public GameObject camRun;
     private AudioSource camListener;
 
+
+    public Joystick myJoystick;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,10 +79,20 @@ public class Character : MonoBehaviour
             camListener.enabled = false;
         }
         isGrounded = isGroundedMethod();
-        HandleMovement(horizontal);
+        //HandleMovement(horizontal);
 
-       
-        anim.SetBool("IdleToRun", true);
+
+        //anim.SetBool("IdleToRun", true);
+
+        myRigidBody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * movementSpeed, myRigidBody.velocity.y);
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }else if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
     }
 
     private void HandleMovement(float horizontal)
